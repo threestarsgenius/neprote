@@ -1,0 +1,28 @@
+<?php use Phalcon\Tag as Tag; ?>
+<h1 class="page-header">Categories::Edit</h1>
+<?=Tag::form(array($this->view->form->getAction())) ?>
+	<?php echo $form->render('id') ?>
+	<div class="form-group">
+		<label for="<?=$form->get('name')->getName()?>"><?=$form->get('name')->getLabel()?>:</label>
+		<?php echo $form->render('name') ?>
+		<span class="help-block">
+<?php
+	if ($form->hasMessagesFor('name')) {
+		echo $form->getMessagesFor('name')[0];
+	} else {
+		if ($this->view->getVar('category_create_error')) echo $this->view->getVar('category_create_error');
+	}
+?>
+		</span>
+	</div>
+
+	<div class="form-group">
+		<label for="<?=$form->get('description')->getName()?>"><?=$form->get('description')->getLabel()?><?php if ($form->hasMessagesFor('description')) { ?> (<strong style="color:red;"><?php echo $form->getMessagesFor('description')[0]?></strong>)<?php } ?>:</label>
+		<?php echo $form->render('description') ?>
+	</div>
+
+	<div class="form-group">
+		<?php echo $form->render('submit') ?>
+	</div>
+
+<?=Tag::endForm ()?>

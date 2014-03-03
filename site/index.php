@@ -27,6 +27,8 @@ try {
 		$view->setTemplateAfter('main');
 		$view->setVar('bootstrap_enable', $config->view->bootstrap);
 		$view->setVar('sign_up_enable', $config->application->signUp);
+		// for escaping in views
+		$view->setVar('escaper', new \Phalcon\Escaper());
 		return $view;
 	});
 
