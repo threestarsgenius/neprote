@@ -7,10 +7,8 @@
 		<?php echo $form->render('name') ?>
 		<span class="help-block">
 <?php
-	if ($form->hasMessagesFor('name')) {
-		echo $form->getMessagesFor('name')[0];
-	} else {
-		if ($this->view->getVar('category_create_error')) echo $this->view->getVar('category_create_error');
+	if (isset($this->view->getVar('errors')[$form->get('name')->getName()])) {
+		echo $this->view->getVar('escaper')->escapeHtml($this->view->getVar('errors')[$form->get('name')->getName()]);
 	}
 ?>
 		</span>

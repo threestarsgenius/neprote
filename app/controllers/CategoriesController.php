@@ -18,58 +18,63 @@ class CategoriesController extends \Framework\AbstractController {
 			$addForm = new \CategoryForm\CategoryAddForm();
 			$newCategory = new Categories();
 			if ($this->view->addForm->isValid($this->getDI()->getRequest()->getPost(), $newCategory)
-					&& (!$newCategory->checkCategoryExistsByName($newCategory->name)) ) {
+					&& (!$newCategory->checkCategoryExistsByName()) ) {
 				// create new category
 				$newCategory->create(array('user_id' => $this->session->get('auth')->getUserCredentials()['id']));
-				return $this->dispatcher->forward(array('controller' => 'categories','action' => 'index'));
+				return $this->_forwardCategoriesIndex();
 			} else {
 				// output error message
-				$this->view->setVar('category_create_error', 'Can\'t save category with this name');
+				$this->view->setVar('errors', array_merge(array('name' => 'Can\'t save category with this name'),$this->view->addForm->getMessages()));
 			}
 		}
 	}
 
-	public function editAction($id = null) {
+	public function editAction() {
 		// sanitize $id
 		$filter = new \Phalcon\Filter();
+		// get $id from dispatched params
+		$id = $this->dispatcher->getParams()[0];
 		if (!$sanitizedID = $filter->sanitize($id, 'int')) {
-			return $this->dispatcher->forward(array('controller' => 'categories','action' => 'index'));
+			return $this->_forwardCategoriesIndex();
 		}
 		$categoriesTable = new Categories();
 		// check if exist and get category
 		if (!$categoryToEdit = $categoriesTable->getCategoryByID($sanitizedID)) {
-			return $this->dispatcher->forward(array('controller' => 'categories','action' => 'index'));
+			return $this->_forwardCategoriesIndex();
 		}
 
 		$this->view->setVar('form', new \CategoryForm\CategoryEditForm($categoryToEdit));
 		// declare and populate form
 		if ($this->getDI()->getRequest()->isPost()) {
-			if (!$this->view->form) $this->view->setVar('form', new \CategoryForm\CategoryEditForm());
-			$category = (object) Array();
+			$category = new Categories(array('id' => $categoryToEdit->id));
 			if ($this->view->form->isValid($this->getDI()->getRequest()->getPost(), $category)
-					&& (!$categoriesTable->checkCategoryExistsByName($category->name, $sanitizedID)) ) {
+					&& (!$category->checkCategoryExistsByName()) ) {
 				$categoryToEdit->updateCategory($category);
-				return $this->dispatcher->forward(array('controller' => 'categories','action' => 'index'));
+				return $this->_forwardCategoriesIndex();
 			} else {
 				// output error message
-				$this->view->setVar('category_create_error', 'Can\'t save category with this name');
+				$this->view->setVar('errors', array_merge(array('name' => 'Can\'t save category with this name'),$this->view->form->getMessages()));
 			}
-		} else {
-			$this->view->getVar('form')->setAction("categories/edit/$id");
 		}
 	}
 
-	public function deleteAction($id = null) {
+	public function deleteAction() {
 		// sanitize $id
 		$filter = new \Phalcon\Filter();
+		// get $id from dispatched params
+		$id = $this->dispatcher->getParams()[0];
 		if (!$sanitizedID = $filter->sanitize($id, 'int')) {
-			return $this->dispatcher->forward(array('controller' => 'categories','action' => 'index'));
+			return $this->_forwardCategoriesIndex();
 		}
 		$categoriesTable = new Categories();
 		// check if category is already deleted
 		if ($categoryToDelete = $categoriesTable->getCategoryByID($sanitizedID)) {
 			$categoryToDelete->deleteCategory();
 		}
+		return $this->_forwardCategoriesIndex();
+	}
+
+	protected function _forwardCategoriesIndex() {
 		return $this->dispatcher->forward(array('controller' => 'categories','action' => 'index'));
 	}
 

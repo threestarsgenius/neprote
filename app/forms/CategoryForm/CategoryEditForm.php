@@ -2,37 +2,27 @@
 
 namespace CategoryForm;
 
-class CategoryEditForm extends \Phalcon\Forms\Form {
+class CategoryEditForm extends \Framework\Forms\Form {
 
 	public function initialize() {
-		// $this->setAction('categories/update');
+		$filter = new \Phalcon\Filter();
+		$sanitizedID = $filter->sanitize($this->getEntity()->id, 'int');
+		// set form action using sanitized category id
+		$this->setAction("categories/edit/$sanitizedID");
 
 		// id
 		$element = new \Phalcon\Forms\Element\Hidden('id', array('class' => 'form-control', 'size' => '10', 'maxlength'=>10));
-		$element->setLabel('id');
-		// $element->addValidators(array(
-		// 		new \Phalcon\Validation\Validator\PresenceOf(array(
-		// 				'message' => 'The category name is required')),
-		// ));
 		$this->add($element);
 
 		// name
-		$element = new \Phalcon\Forms\Element\Text('name', array('class' => 'form-control', 'size' => '30', 'maxlength'=>30));
-		$element->setLabel('Name');
-		$element->addValidators(array(
-				new \Phalcon\Validation\Validator\PresenceOf(array(
-						'message' => 'The category name is required')),
-		));
-		$this->add($element);
+		$this->add(new \Framework\Forms\Element\Name());
 
 		// description
-		$element = new \Phalcon\Forms\Element\TextArea('description', array('class' => 'form-control', 'size' => '30', 'maxlength'=>255));
-		$element->setLabel('Description');
-		$this->add($element);
+		$this->add(new \Framework\Forms\Element\CategoryDescription());
 
 		// submit
 		$element = new \Framework\Forms\Element\Submit();
-		$element->setDefault('Add');
+		$element->setDefault('Edit');
 		$this->add($element);
 	}
 

@@ -17,7 +17,7 @@ class Categories extends \Phalcon\Mvc\Model {
 
 	public function deleteCategory() {
 		$this->deleted = time();
-		$this->save();
+		$this->update();
 	}
 
 	public function getCategories() {
@@ -25,24 +25,29 @@ class Categories extends \Phalcon\Mvc\Model {
 	}
 
 	public function getCategoryByID($category_id) {
-		return self::findFirst(array('id = :category_id: AND deleted is NULL', 'bind' => array('category_id' => $category_id)));
+		return self::findFirst(
+			array(
+				'id = :category_id: AND deleted is NULL',
+				'bind' => array('category_id' => $category_id)
+			)
+		);
 	}
 
-	public function checkCategoryExistsByName($category_name, $id = 0) {
-		if ($id > 0) {
-			return self::findFirst(array('name = :category_name: AND deleted is NULL AND id != :id:', 'bind' => array('category_name' => $category_name, 'id' => $id)));
-		} else {
-			return self::findFirst(array('name = :category_name: AND deleted is NULL', 'bind' => array('category_name' => $category_name)));
-		}
+	public function checkCategoryExistsByName() {
+		$bind = array_merge(
+			array('category_name' => $this->name),
+			isset($this->id) ? array('id' => $this->id) : array()
+		);
+		$params = array(
+			'name = :category_name: AND deleted is NULL'.(isset($this->id) ? ' AND id != :id:' : ''),
+			'bind' => $bind
+		);
+		return self::findFirst($params);
 	}
 
 	public function getUserNameByID() {
 		$usersTable = new Users();
 		return $usersTable->getUserByID($this->user_id)->name;
-	}
-
-	public function getCountCategories() {
-		return self::count(self::getCategories());
 	}
 
 }
