@@ -5,10 +5,7 @@ namespace CategoryForm;
 class CategoryEditForm extends \Framework\Forms\Form {
 
 	public function initialize() {
-		$filter = new \Phalcon\Filter();
-		$sanitizedID = $filter->sanitize($this->getEntity()->id, 'int');
-		// set form action using sanitized category id
-		$this->setAction("categories/edit/$sanitizedID");
+		$this->setAction("categories/edit/".$this->getEntity()->id);
 
 		// id
 		$element = new \Phalcon\Forms\Element\Hidden('id', array('class' => 'form-control', 'size' => '10', 'maxlength'=>10));
