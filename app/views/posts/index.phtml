@@ -1,0 +1,18 @@
+<div>
+
+<h1 class="page-header">
+	<?=$this->view->getVar('post')->title?>
+	<small>
+		<a href='/posts/edit/<?=$this->view->getVar('post')->id?>'>Edit</a>
+		<a href='/posts/delete/<?=$this->view->getVar('post')->id?>'>Delete</a>
+	</small>
+</h1>
+	<p>
+<?
+echo $this->view->getVar('escaper')->escapeHtml($this->view->getVar('post')->getCategoryNameByID()).' '.
+$this->view->getVar('escaper')->escapeHtml($this->view->getVar('post')->getUserNameByID()).' '.
+$this->view->getVar('escaper')->escapeHtml($this->view->getVar('post')->status);
+?>
+	</p>
+	<p><?=$this->view->getVar('post')->text?></p>
+</div>
