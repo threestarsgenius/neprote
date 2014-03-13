@@ -1,11 +1,19 @@
-<div class="page-header">
-	<h1>This is dummy text</h1>
-	<p class="lead">
-		Bootstrap starter template. Use this document as a way to quickly start 
-		any new project. All you get is this text and a mostly barebones HTML document.
+<?foreach ($this->view->getVar('posts') as $post) { ?>
+<div>
+
+<h1 class="page-header">
+	<a href='/index/show/<?=$post->id?>'>
+		<?=$post->title?>
+	</a>
+</h1>
+	<p>
+<?
+echo $this->view->getVar('escaper')->escapeHtml($post->getCategoryNameByID()).' '.
+$this->view->getVar('escaper')->escapeHtml($post->getUserNameByID()).' '.
+$this->view->getVar('escaper')->escapeHtml($post->getPostStatusByID());
+?>
 	</p>
+	<p><?=$post->text?></p>
 </div>
-<p>
-	Bootstrap starter template. Use this document as a way to quickly start 
-	any new project. All you get is this text and a mostly barebones HTML document.
-</p>
+<? } ?>
+

@@ -1,0 +1,21 @@
+<div>
+
+	<h1 class="page-header">
+		Posts
+		<small><a href='/posts/add'>Add</a></small>
+	</h1>
+
+		<div class="list-group">
+
+<?foreach ($this->view->getVar('posts') as $post) { ?>
+
+			<a class="list-group-item" href='/index/show/<?=$post->id?>'>
+				<span class="badge"><?=$post->getPostStatusByID()?></span>
+<?=$post->title?>
+			</a>
+
+<? } ?>
+
+		</div>
+
+</div>
