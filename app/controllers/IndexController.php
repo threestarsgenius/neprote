@@ -10,21 +10,14 @@ class IndexController extends \Framework\AbstractController {
 	}
 
 	public function showAction() {
-		if ($post = $this->_checkIfPostExistByID()) {
-			$this->view->setVar('post', $post);
-		} else {
-			return $this->_forwardIndexIndex();
-		}
-	}
-
-	protected function _checkIfPostExistByID() {
 		$filter = new \Phalcon\Filter();
-		$sanitizedID = null;
 		// get $id from dispatched params
-		if (count($this->dispatcher->getParams()) > 0
-			&& ($sanitizedID = $filter->sanitize($this->dispatcher->getParams()[0], 'int')) ) {
+		if ($sanitizedID = $filter->sanitize($this->dispatcher->getParam(0), 'int')) {
 			$postsTable = new Posts();
-			return $postsTable->getPostByID($sanitizedID);
+			$this->view->setVar('post', $postsTable->getPostByID($sanitizedID));
+		}
+		if (!$this->view->getVar('post')) {
+			return $this->_forwardIndexIndex();
 		}
 	}
 

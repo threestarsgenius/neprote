@@ -40,7 +40,6 @@ class PostsController extends \Framework\AbstractController {
 				$post = new Posts(array('id' => $postToEdit->id));
 				if ($this->view->form->isValid($this->getDI()->getRequest()->getPost(), $post) ) {
 					$postToEdit->updatePost($post);
-					// return $this->_forwardIndexIndex();
 				} else {
 					// output error message
 					$this->view->setVar(
@@ -73,10 +72,8 @@ class PostsController extends \Framework\AbstractController {
 
 	protected function _getExistedPostByID() {
 		$filter = new \Phalcon\Filter();
-		$sanitizedID = null;
 		// get $id from dispatched params
-		if (count($this->dispatcher->getParams()) > 0
-			&& ($sanitizedID = $filter->sanitize($this->dispatcher->getParams()[0], 'int')) ) {
+		if ($sanitizedID = $filter->sanitize($this->dispatcher->getParam(0), 'int')) {
 			$postsTable = new Posts();
 			return $postsTable->getPostByID($sanitizedID);
 		}
