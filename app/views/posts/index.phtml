@@ -1,18 +1,21 @@
 <div>
 
-<h1 class="page-header">
-	<?=$this->view->getVar('post')->title?>
-	<small>
-		<a href='/posts/edit/<?=$this->view->getVar('post')->id?>'>Edit</a>
-		<a href='/posts/delete/<?=$this->view->getVar('post')->id?>'>Delete</a>
-	</small>
-</h1>
-	<p>
-<?
-echo $this->view->getVar('escaper')->escapeHtml($this->view->getVar('post')->getCategoryNameByID()).' '.
-$this->view->getVar('escaper')->escapeHtml($this->view->getVar('post')->getUserNameByID()).' '.
-$this->view->getVar('escaper')->escapeHtml($this->view->getVar('post')->status);
-?>
-	</p>
-	<p><?=$this->view->getVar('post')->text?></p>
+	<h1 class="page-header">
+		Posts
+		<small><a href='/posts/add'>Add</a></small>
+	</h1>
+
+		<div class="list-group">
+
+<?foreach ($this->view->getVar('posts') as $post) { ?>
+
+			<a class="list-group-item" href='/index/show/<?=$post->id?>'>
+				<span class="badge"><?=$post->getPostStatusByID()?></span>
+<?=$post->title?>
+			</a>
+
+<? } ?>
+
+		</div>
+
 </div>

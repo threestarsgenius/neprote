@@ -7,12 +7,11 @@ class Posts extends \Phalcon\Mvc\Model {
 	const STATUS_MODERATION = 3;
 	const STATUS_TRASH = 4;
 
-	public function create($data = array(), $whiteList = array()) {
-		if (count($data)) $this->assign($data);
-		// TODO: it's temp status. by default it should be moderation
+	public function createPost($user_id) {
+		$this->user_id = $user_id;
 		$this->status = self::STATUS_PUBLISH;
 		$this->created = time();
-		return parent::create($data, $whiteList);
+		$this->save();
 	}
 
 	public function updatePost($post) {
@@ -31,7 +30,9 @@ class Posts extends \Phalcon\Mvc\Model {
 	}
 
 	public function getPublishPosts() {
-		return self::find('status = 1 AND deleted is NULL');
+		return self::find(
+			array('status = 1', 'deleted is NULL', 'order' => 'created desc')
+		);
 	}
 
 	public function getPostByID($post_id) {
@@ -39,6 +40,16 @@ class Posts extends \Phalcon\Mvc\Model {
 			array(
 				"id = :post_id: AND deleted is NULL",
 				'bind' => array('post_id' => $post_id)
+			)
+		);
+	}
+
+	public function getPostsByUserID($user_id) {
+		return self::find(
+			array(
+				"user_id = :user_id: AND deleted is NULL",
+				'bind' => array('user_id' => $user_id),
+				'order' => 'created desc'
 			)
 		);
 	}

@@ -2,42 +2,29 @@
 
 class PostsController extends \Framework\AbstractController {
 
-	public function beforeExecuteRoute(\Phalcon\Mvc\Dispatcher $dispatcher) {
-		// Not Authenticated user able to access only to indexAction
-		// Trying to get any other action will be forbidden with
-		// redirect to posts/index
-		if (!$this->session->get('auth')->isAuthenticated()) {
-			if ($dispatcher->getActionName() != 'index') {
-				$dispatcher->forward(array('controller' => 'posts','action' => 'index'));
-				return false;
-			}
-		}
-	}
+	const POST_SAVE_ERROR_MESSAGE = 'Can\'t save post with this name';
+	const INDEX_CONTROLLER = 'index';
+	const INDEX_ACTION = 'index';
 
 	public function indexAction() {
-		if ($post = $this->_checkIfPostExistByID()) {
-			$this->view->setVar('post', $post);
-		} else {
-			return $this->_forwardIndexIndex();
-		}
+		$postsTable = new Posts();
+		$user_id = $this->session->get('auth')->getUserId();
+		$this->view->setVar('posts', $postsTable->getPostsByUserID($user_id));
 	}
 
 	public function addAction() {
 		if (!$this->view->form) $this->view->setVar('form', new \PostForm\PostAddForm());
 		if ($this->getDI()->getRequest()->isPost()) {
-			$form = new \PostForm\PostAddForm();
 			$post = new Posts();
 			if ($this->view->form->isValid($this->getDI()->getRequest()->getPost(), $post)) {
-				$post->create(array(
-					'user_id' => $this->session->get('auth')->getUserCredentials()['id']
-				));
+				$post->createPost($this->session->get('auth')->getUserId());
 				return $this->_forwardIndexIndex();
 			} else {
 				// output error message
 				$this->view->setVar(
 					'errors', 
 					array_merge(
-						array('name' => 'Can\'t save category with this name'),
+						array('name' => self::POST_SAVE_ERROR_MESSAGE),
 						$this->view->form->getMessages()
 					)
 				);
@@ -46,32 +33,33 @@ class PostsController extends \Framework\AbstractController {
 	}
 
 	public function editAction() {
-		if ($postToEdit = $this->_checkIfPostExistByID()) {
+		if ($postToEdit = $this->_getExistedPostByID()) {
 			// declare and populate form
 			$this->view->setVar('form', new \PostForm\PostEditForm($postToEdit));
 			if ($this->getDI()->getRequest()->isPost()) {
 				$post = new Posts(array('id' => $postToEdit->id));
 				if ($this->view->form->isValid($this->getDI()->getRequest()->getPost(), $post) ) {
 					$postToEdit->updatePost($post);
-					return $this->_forwardIndexIndex();
+					// return $this->_forwardIndexIndex();
 				} else {
 					// output error message
 					$this->view->setVar(
 						'errors', 
 						array_merge(
-							array('name' => 'Can\'t save category with this name'),
+							array('name' => self::POST_SAVE_ERROR_MESSAGE),
 							$this->view->form->getMessages()
 						)
 					);
 				}
 			}
-		} else {
+		} 
+		if (!$this->view->getVar('errors') && !$postToEdit) {
 			return $this->_forwardIndexIndex();
 		}
 	}
 
 	public function deleteAction() {
-		if ($postToDelete = $this->_checkIfPostExistByID()) {
+		if ($postToDelete = $this->_getExistedPostByID()) {
 			$postToDelete->deletePost();
 		}
 		return $this->_forwardIndexIndex();
@@ -79,11 +67,11 @@ class PostsController extends \Framework\AbstractController {
 
 	protected function _forwardIndexIndex() {
 		return $this->dispatcher->forward(
-			array('controller' => 'index','action' => 'index')
+			array('controller' => self::INDEX_CONTROLLER, 'action' => self::INDEX_ACTION)
 		);
 	}
 
-	protected function _checkIfPostExistByID() {
+	protected function _getExistedPostByID() {
 		$filter = new \Phalcon\Filter();
 		$sanitizedID = null;
 		// get $id from dispatched params

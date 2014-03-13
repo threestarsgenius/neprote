@@ -4,12 +4,22 @@ namespace PostForm;
 
 class PostEditForm extends \Framework\Forms\Form {
 
+	const POST_EDIT_ACTION = 'posts/edit/';
+	const HIDDEN_ID_NAME = 'id';
+	const HIDDEN_ID_MAXLENGTH = 10;
+	const STATUS_ELEMENT_NAME = 'status';
+	const STATUS_ELEMENT_LABEL = 'Status';
+	const STATUS_ELEMENT_VALIDATION_MESSAGE = 'Status is required';
+	const FORM_SUBMIT_LABEL = 'Edit';
+
 	public function initialize() {
-		$this->setAction('posts/edit/'.$this->getEntity()->id);
+		$this->setAction(self::POST_EDIT_ACTION.$this->getEntity()->id);
 
 		// id
-		$element = new \Phalcon\Forms\Element\Hidden('id', array('class' => 'form-control', 'size' => '10', 'maxlength'=>10));
-		$this->add($element);
+		$this->add(new \Phalcon\Forms\Element\Hidden(
+			self::HIDDEN_ID_NAME, 
+			array('maxlength' => self::HIDDEN_ID_MAXLENGTH))
+		);
 
 		// title
 		$this->add(new \Framework\Forms\Element\Title());
@@ -18,11 +28,14 @@ class PostEditForm extends \Framework\Forms\Form {
 		$this->add(new \Framework\Forms\Element\CategoryID());
 
 		// status
-		$element = new \Phalcon\Forms\Element\Select('status', (new \PostStatuses())->getPostStatuses(), array('using' => array('id', 'name')));
-		$element->setLabel('Status');
+		$element = new \Phalcon\Forms\Element\Select(
+			self::STATUS_ELEMENT_NAME, 
+			(new \PostStatuses())->getPostStatuses(), array('using' => array('id', 'name'))
+		);
+		$element->setLabel(self::STATUS_ELEMENT_LABEL);
 		$element->addValidators(array(
 				new \Phalcon\Validation\Validator\PresenceOf(array(
-						'message' => 'Status is required'))
+						'message' => self::STATUS_ELEMENT_VALIDATION_MESSAGE))
 		));
 		$this->add($element);
 
@@ -31,7 +44,7 @@ class PostEditForm extends \Framework\Forms\Form {
 
 		// submit
 		$element = new \Framework\Forms\Element\Submit();
-		$element->setDefault('Edit');
+		$element->setDefault(self::FORM_SUBMIT_LABEL);
 		$this->add($element);
 	}
 
