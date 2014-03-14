@@ -1,0 +1,19 @@
+<div>
+
+	<h1 class="page-header">Moderation</h1>
+
+		<div class="list-group">
+
+<?foreach ($this->view->getVar('posts') as $post) { ?>
+
+			<a class="list-group-item" href='/index/show/<?=$post->id?>'>
+				<span class="badge"><?=$post->getUserNameByID()?></span>
+				<span class="badge"><?=$post->getCategoryNameByID()?></span>
+<?=$post->title?>
+			</a>
+
+<? } ?>
+
+		</div>
+
+</div>

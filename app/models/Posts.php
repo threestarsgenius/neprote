@@ -9,7 +9,7 @@ class Posts extends \Phalcon\Mvc\Model {
 
 	public function createPost($user_id) {
 		$this->user_id = $user_id;
-		$this->status = self::STATUS_PUBLISH;
+		$this->status = self::STATUS_MODERATION;
 		$this->created = time();
 		$this->save();
 	}
@@ -35,6 +35,12 @@ class Posts extends \Phalcon\Mvc\Model {
 		);
 	}
 
+	public function getModerationPosts() {
+		return self::find(
+			array('status = 3', 'deleted is NULL', 'order' => 'created desc')
+		);
+	}
+
 	public function getPostByID($post_id) {
 		return self::findFirst(
 			array(
@@ -52,6 +58,16 @@ class Posts extends \Phalcon\Mvc\Model {
 				'order' => 'created desc'
 			)
 		);
+	}
+
+	public function acceptModeration() {
+		$this->status = self::STATUS_PUBLISH;
+		$this->update();
+	}
+
+	public function declineModeration() {
+		$this->status = self::STATUS_DRAFT;
+		$this->update();
 	}
 
 	// TODO: move this to abstract model which should be created in future

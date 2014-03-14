@@ -5,6 +5,10 @@
 	<small>
 		<a href='/posts/edit/<?=$this->view->getVar('post')->id?>'>Edit</a>
 		<a href='/posts/delete/<?=$this->view->getVar('post')->id?>'>Delete</a>
+<? if ($post->status == 3) {?>
+		<a href='/moderation/accept/<?=$post->id?>'>Accept</a>
+		<a href='/moderation/decline/<?=$post->id?>'>Decline</a>
+<? } ?>
 	</small>
 </h1>
 	<p>
