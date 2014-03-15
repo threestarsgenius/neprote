@@ -16,7 +16,11 @@ class InitApp {
 
 	public static function initDb() {
 		$config = \Phalcon\DI::getDefault()->get('config');
-		$connection = new \Phalcon\Db\Adapter\Pdo\Mysql($config->database->toArray());
+		$params = array_merge($config->database->toArray(), array(
+				"options" => array(
+						PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'
+				) ));
+		$connection = new \Phalcon\Db\Adapter\Pdo\Mysql($params);
 		if (getenv('APPLICATION_ENV') == 'devel') {
 			$eventsManager = new \Phalcon\Events\Manager();
 			$eventsManager->attach('db', function($event, $connection) {
