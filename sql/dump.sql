@@ -31,7 +31,28 @@ CREATE TABLE `categories` (
   `modified` int(10) unsigned DEFAULT NULL,
   `deleted` int(10) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=62 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=102 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `posts`
+--
+
+DROP TABLE IF EXISTS `posts`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `posts` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `user_id` char(32) NOT NULL,
+  `category_id` int(10) NOT NULL,
+  `title` varchar(70) NOT NULL,
+  `text` text,
+  `status` enum('publish','draft','moderation','trash') NOT NULL,
+  `created` int(10) unsigned NOT NULL,
+  `modified` int(10) unsigned DEFAULT NULL,
+  `deleted` int(10) unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -64,7 +85,7 @@ CREATE TABLE `user_to_remember_me` (
   `code` char(32) NOT NULL,
   `last_updated` int(10) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=59 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -113,4 +134,4 @@ CREATE TABLE `users_emails` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-03-03 13:08:23
+-- Dump completed on 2014-03-16 17:12:49

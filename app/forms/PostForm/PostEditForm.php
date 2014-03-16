@@ -29,8 +29,7 @@ class PostEditForm extends \Framework\Forms\Form {
 
 		// status
 		$element = new \Phalcon\Forms\Element\Select(
-			self::STATUS_ELEMENT_NAME, 
-			(new \PostStatuses())->getPostStatuses(), array('using' => array('id', 'name'))
+			self::STATUS_ELEMENT_NAME, (new \Posts)->getPostStatuses()
 		);
 		$element->setLabel(self::STATUS_ELEMENT_LABEL);
 		$element->addValidators(array(

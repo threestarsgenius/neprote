@@ -2,7 +2,7 @@
 
 class ModerationController extends \Framework\AbstractController {
 
-	const STATUS_MODERATION = 3;
+	const STATUS_MODERATION = 'moderation';
 	const INDEX_CONTROLLER = 'index';
 	const INDEX_ACTION = 'index';
 
