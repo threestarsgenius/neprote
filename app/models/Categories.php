@@ -4,6 +4,7 @@ class Categories extends \Phalcon\Mvc\Model {
 
 	public function create($data = array(), $whiteList = array()) {
 		if (count($data)) $this->assign($data);
+		if (!isset($this->description) || (!$this->description)) unset($this->description);
 		$this->created = time();
 		return parent::create($data, $whiteList);
 	}
