@@ -1,6 +1,6 @@
 <?php
 
-class UsersEmails extends \Phalcon\Mvc\Model {
+class UsersEmails extends \Framework\AbstractModel {
 
 	protected $verificationObject;
 	protected $verificationCode;

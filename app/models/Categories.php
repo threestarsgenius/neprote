@@ -1,6 +1,6 @@
 <?php
 
-class Categories extends \Phalcon\Mvc\Model {
+class Categories extends \Framework\AbstractModel {
 
 	public function create($data = array(), $whiteList = array()) {
 		if (count($data)) $this->assign($data);
@@ -43,11 +43,6 @@ class Categories extends \Phalcon\Mvc\Model {
 			'bind' => $bind
 		);
 		return self::findFirst($params);
-	}
-
-	public function getUserNameByID() {
-		$usersTable = new Users();
-		return $usersTable->getUserByID($this->user_id)->name;
 	}
 
 }

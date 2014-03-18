@@ -1,6 +1,6 @@
 <?php
 
-class Posts extends \Phalcon\Mvc\Model {
+class Posts extends \Framework\AbstractModel {
 
 	const STATUS_PUBLISH = 'publish';
 	const STATUS_DRAFT = 'draft';
@@ -68,18 +68,6 @@ class Posts extends \Phalcon\Mvc\Model {
 	public function declineModeration() {
 		$this->status = self::STATUS_DRAFT;
 		$this->update();
-	}
-
-	// TODO: move this to abstract model which should be created in future
-	public function getUserNameByID() {
-		$usersTable = new Users();
-		return $usersTable->getUserByID($this->user_id)->name;
-	}
-
-	// TODO: move this to abstract model which should be created in future
-	public function getCategoryNameByID() {
-		$usersTable = new Categories();
-		return $usersTable->getCategoryByID($this->category_id)->name;
 	}
 
 	public function getPostStatuses() {

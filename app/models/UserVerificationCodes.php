@@ -1,6 +1,6 @@
 <?php
 
-class UserVerificationCodes extends \Phalcon\Mvc\Model {
+class UserVerificationCodes extends \Framework\AbstractModel {
 
 	const VERIFICATION_CODE_LIFESPAN = 18000; // 5 hours
 
