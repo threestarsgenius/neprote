@@ -15,7 +15,7 @@
 <?
 echo $this->view->getVar('escaper')->escapeHtml($this->view->getVar('post')->getCategoryNameByID()).' '.
 $this->view->getVar('escaper')->escapeHtml($this->view->getVar('post')->getUserNameByID()).' '.
-$this->view->getVar('escaper')->escapeHtml($this->view->getVar('post')->status);
+$this->view->getVar('escaper')->escapeHtml($this->view->getVar('post')->getStatus());
 ?>
 	</p>
 	<p><?=$this->view->getVar('post')->text?></p>

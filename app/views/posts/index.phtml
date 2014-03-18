@@ -10,7 +10,7 @@
 <?foreach ($this->view->getVar('posts') as $post) { ?>
 
 			<a class="list-group-item" href='/index/show/<?=$post->id?>'>
-				<span class="badge"><?=$post->status?></span>
+				<span class="badge"><?=$post->getStatus()?></span>
 <?=$post->title?>
 			</a>
 

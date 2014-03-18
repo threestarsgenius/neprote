@@ -93,4 +93,8 @@ class Posts extends \Phalcon\Mvc\Model {
 		return $this->status == 'moderation' ? true : false;
 	}
 
+	public function getStatus() {
+		return $this->status;
+	}
+
 }

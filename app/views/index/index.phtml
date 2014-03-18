@@ -10,7 +10,7 @@
 <?
 echo $this->view->getVar('escaper')->escapeHtml($post->getCategoryNameByID()).' '.
 $this->view->getVar('escaper')->escapeHtml($post->getUserNameByID()).' '.
-$this->view->getVar('escaper')->escapeHtml($post->status);
+$this->view->getVar('escaper')->escapeHtml($post->getStatus());
 ?>
 	</p>
 	<p><?=$post->text?></p>
