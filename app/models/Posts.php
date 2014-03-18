@@ -2,14 +2,14 @@
 
 class Posts extends \Phalcon\Mvc\Model {
 
-	const STATUS_PUBLISH = 1;
-	const STATUS_DRAFT = 2;
-	const STATUS_MODERATION = 3;
-	const STATUS_TRASH = 4;
+	const STATUS_PUBLISH = 'publish';
+	const STATUS_DRAFT = 'draft';
+	const STATUS_MODERATION = 'moderation';
+	const STATUS_TRASH = 'trash';
 
 	public function createPost($user_id) {
 		$this->user_id = $user_id;
-		$this->status = self::STATUS_PUBLISH;
+		$this->status = self::STATUS_MODERATION;
 		$this->created = time();
 		$this->save();
 	}
@@ -31,7 +31,13 @@ class Posts extends \Phalcon\Mvc\Model {
 
 	public function getPublishPosts() {
 		return self::find(
-			array('status = 1', 'deleted is NULL', 'order' => 'created desc')
+			array("status = '".self::STATUS_PUBLISH."'", 'deleted is NULL', 'order' => 'created desc')
+		);
+	}
+
+	public function getModerationPosts() {
+		return self::find(
+			array("status = '".self::STATUS_MODERATION."'", 'deleted is NULL', 'order' => 'created desc')
 		);
 	}
 
@@ -54,6 +60,16 @@ class Posts extends \Phalcon\Mvc\Model {
 		);
 	}
 
+	public function acceptModeration() {
+		$this->status = self::STATUS_PUBLISH;
+		$this->update();
+	}
+
+	public function declineModeration() {
+		$this->status = self::STATUS_DRAFT;
+		$this->update();
+	}
+
 	// TODO: move this to abstract model which should be created in future
 	public function getUserNameByID() {
 		$usersTable = new Users();
@@ -66,10 +82,19 @@ class Posts extends \Phalcon\Mvc\Model {
 		return $usersTable->getCategoryByID($this->category_id)->name;
 	}
 
-	// TODO: move this to abstract model which should be created in future
-	public function getPostStatusByID() {
-		$usersTable = new PostStatuses();
-		return $usersTable->getPostStatusByID($this->status)->name;
+	public function getPostStatuses() {
+		return array(
+			'publish' => 'publish', 'draft' => 'draft', 
+			'moderation' => 'moderation', 'trash' => 'trash'
+		);
+	}
+
+	public function isRequiredModeration() {
+		return $this->status == 'moderation' ? true : false;
+	}
+
+	public function getStatus() {
+		return $this->status;
 	}
 
 }
