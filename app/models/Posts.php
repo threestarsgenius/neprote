@@ -85,4 +85,9 @@ class Posts extends \Framework\AbstractModel {
 		return $this->status;
 	}
 
+	public function getCategoryNameByID() {
+		$usersTable = new \Categories();
+		return $usersTable->getCategoryByID($this->category_id)->name;
+	}
+
 }
