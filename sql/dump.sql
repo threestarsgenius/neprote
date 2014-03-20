@@ -31,7 +31,7 @@ CREATE TABLE `categories` (
   `modified` int(10) unsigned DEFAULT NULL,
   `deleted` int(10) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=102 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=106 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -52,24 +52,7 @@ CREATE TABLE `posts` (
   `modified` int(10) unsigned DEFAULT NULL,
   `deleted` int(10) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `user_email_verifications`
---
-
-DROP TABLE IF EXISTS `user_email_verifications`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `user_email_verifications` (
-  `id` int(10) NOT NULL AUTO_INCREMENT,
-  `email_id` int(10) NOT NULL,
-  `verification_code` char(60) NOT NULL,
-  `salt` varchar(22) NOT NULL,
-  `created` int(10) unsigned NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=130 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -86,6 +69,24 @@ CREATE TABLE `user_to_remember_me` (
   `last_updated` int(10) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `user_verification_codes`
+--
+
+DROP TABLE IF EXISTS `user_verification_codes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `user_verification_codes` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `email_id` int(10) NOT NULL,
+  `verification_code` char(60) NOT NULL,
+  `salt` varchar(22) NOT NULL,
+  `reason` enum('emailVerification','resetPassword') NOT NULL,
+  `created` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=159 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -122,7 +123,7 @@ CREATE TABLE `users_emails` (
   `verified` int(10) DEFAULT NULL,
   `deleted` int(10) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=139 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=143 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -134,4 +135,4 @@ CREATE TABLE `users_emails` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-03-16 17:12:49
+-- Dump completed on 2014-03-18 12:52:48
