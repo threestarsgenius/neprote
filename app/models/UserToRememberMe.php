@@ -1,6 +1,6 @@
 <?php
 
-class UserToRememberMe extends \Phalcon\Mvc\Model {
+class UserToRememberMe extends \Framework\AbstractModel {
 
 	public function create($data = array(), $whiteList = array()) {
 		if (count($data)) $this->assign($data);
