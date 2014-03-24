@@ -19,7 +19,11 @@
 			<small>
 				<?=$this->view->getVar('escaper')->escapeHtml($category->getUserNameByID())?> - 
 				<a href='/categories/edit/<?=$category->id?>'>Edit</a> - 
+<?if (count((new \Posts)->getPostsByCategoryID($category->id))==0) { ?>
 				<a href='/categories/delete/<?=$category->id?>'>Delete</a>
+<? } else { ?>
+				Delete
+<? } ?>
 			</small>
 		</h4>
 		<p class="list-group-item-text"><?=$this->view->getVar('escaper')->escapeHtml($category->description)?></p>
