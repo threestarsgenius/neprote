@@ -22,7 +22,7 @@
 <?if (count((new \Posts)->getPostsByCategoryID($category->id))==0) { ?>
 				<a href='/categories/delete/<?=$category->id?>'>Delete</a>
 <? } else { ?>
-				Delete
+				<span class='delete_forbidden_hint' data-toggle="tooltip" title="" data-original-title="This category contains non-deleted posts">Delete</span>
 <? } ?>
 			</small>
 		</h4>
@@ -30,3 +30,7 @@
 	</div>
 <? } ?>
 </div>
+
+<script>
+$('.delete_forbidden_hint').tooltip();
+</script>
