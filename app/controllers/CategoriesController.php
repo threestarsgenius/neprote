@@ -67,8 +67,10 @@ class CategoriesController extends \Framework\AbstractController {
 			return $this->_forwardCategoriesIndex();
 		}
 		$categoriesTable = new Categories();
+		$postsTable = new Posts();
 		// check if category is already deleted
-		if ($categoryToDelete = $categoriesTable->getCategoryByID($sanitizedID)) {
+		if ( ($categoryToDelete = $categoriesTable->getCategoryByID($sanitizedID))
+			&& (count($postsTable->getPostsByCategoryID($sanitizedID)) == 0) ) {
 			$categoryToDelete->deleteCategory();
 		}
 		return $this->_forwardCategoriesIndex();

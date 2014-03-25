@@ -60,6 +60,15 @@ class Posts extends \Framework\AbstractModel {
 		);
 	}
 
+	public function getPostsByCategoryID($category_id) {
+		return self::find(
+			array(
+				"category_id = :category_id: AND deleted is NULL",
+				'bind' => array('category_id' => $category_id)
+			)
+		);
+	}
+
 	public function acceptModeration() {
 		$this->status = self::STATUS_PUBLISH;
 		$this->update();
