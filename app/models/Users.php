@@ -112,6 +112,10 @@ class Users extends \Framework\AbstractModel {
 		return $user;
 	}
 
+	public function isUserNameStored($name) {
+		return self::findFirst(array('name = :name: AND active = 1', 'bind' => array('name' => $name)));
+	}
+
 	public function setNewUsername($name) {
 		$this->name = $name->name;
 		$this->save();

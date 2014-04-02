@@ -2,13 +2,15 @@
 
 namespace ProfileForm;
 
-class UsernameForm extends \Phalcon\Forms\Form {
+class UsernameForm extends \Framework\Forms\Form {
 
 	public function initialize() {
 		$this->setAction('profile/username');
 
 		// name
-		$this->add(new \Framework\Forms\Element\Name());
+		$username = new \Framework\Forms\Element\Name();
+		$username->addValidator(new \Framework\Validation\Validator\UserExists());
+		$this->add($username);
 
 		// submit
 		$element = new \Framework\Forms\Element\Submit();
