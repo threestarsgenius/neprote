@@ -87,6 +87,9 @@ class InitApp {
 		//Private area resources (backend)
 		$privateResources = array(
 			'profile' => array('index', 'username', 'password', 'email', 'deleteemail', 'setprimaryemail'),
+			'categories' => array('index', 'add', 'edit', 'delete'),
+			'posts' => array('index', 'show', 'add', 'edit', 'delete'),
+			'moderation' => array('index', 'accept', 'decline'),
 			'signout' => array('index'),
 			'home' => array('index') );
 
