@@ -53,4 +53,10 @@ if (isset($this->view->getVar('errors')[$form->get('text')->getName()])) {
 		<?php echo $form->render('submit') ?>
 	</div>
 
+<script type="text/javascript">
+CKEDITOR.replace('text',{
+	filebrowserUploadUrl: '/api/uploadpostimage'
+});
+</script>
+
 <?=\Phalcon\Tag::endForm ()?>

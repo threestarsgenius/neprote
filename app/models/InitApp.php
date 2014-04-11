@@ -91,7 +91,8 @@ class InitApp {
 			'posts' => array('index', 'show', 'add', 'edit', 'delete'),
 			'moderation' => array('index', 'accept', 'decline'),
 			'signout' => array('index'),
-			'home' => array('index') );
+			'home' => array('index'),
+			'api' => array('uploadpostimage') );
 
 		//Public area resources (frontend)
 		$publicResources = array(

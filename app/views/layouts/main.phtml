@@ -9,14 +9,16 @@
 <?
 echo \Phalcon\Tag::javascriptInclude("js/config.js");
 if($this->view->getVar('bootstrap_enable')) {
-// Jquery
-echo Phalcon\Tag::javascriptInclude('https://code.jquery.com/jquery.js', false);
-//Bootstrap
-echo Phalcon\Tag::javascriptInclude('//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js', false);
-//Bootstrap
+//Bootstrap css
 echo Phalcon\Tag::stylesheetLink('//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css', false);
 echo Phalcon\Tag::stylesheetLink('//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap-theme.min.css', false);
 echo Phalcon\Tag::stylesheetLink('css/theme.css');
+// Jquery
+echo Phalcon\Tag::javascriptInclude('https://code.jquery.com/jquery.js', false);
+// ckeditor
+echo Phalcon\Tag::javascriptInclude('/js/ckeditor/ckeditor.js', false);
+//Bootstrap
+echo Phalcon\Tag::javascriptInclude('//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js', false);
 }
 ?>
 		<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
