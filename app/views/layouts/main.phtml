@@ -9,16 +9,18 @@
 <?
 echo \Phalcon\Tag::javascriptInclude("js/config.js");
 if($this->view->getVar('bootstrap_enable')) {
-//Bootstrap css
-echo Phalcon\Tag::stylesheetLink('//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css', false);
-echo Phalcon\Tag::stylesheetLink('//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap-theme.min.css', false);
-echo Phalcon\Tag::stylesheetLink('css/theme.css');
-// Jquery
-echo Phalcon\Tag::javascriptInclude('https://code.jquery.com/jquery.js', false);
-// ckeditor
-echo Phalcon\Tag::javascriptInclude('/js/ckeditor/ckeditor.js', false);
-//Bootstrap
-echo Phalcon\Tag::javascriptInclude('//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js', false);
+	//Bootstrap css
+	echo Phalcon\Tag::stylesheetLink('//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css', false);
+	echo Phalcon\Tag::stylesheetLink('//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap-theme.min.css', false);
+	echo Phalcon\Tag::stylesheetLink('css/theme.css');
+	// Jquery
+	echo Phalcon\Tag::javascriptInclude('https://code.jquery.com/jquery.js', false);
+	//Bootstrap
+	echo Phalcon\Tag::javascriptInclude('//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js', false);
+	// ckeditor
+	if($this->view->getVar('ckeditor')) {
+		echo Phalcon\Tag::javascriptInclude('//cdnjs.cloudflare.com/ajax/libs/ckeditor/4.3.2/ckeditor.js', false);
+	}
 }
 ?>
 		<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -35,7 +37,16 @@ echo Phalcon\Tag::javascriptInclude('//netdna.bootstrapcdn.com/bootstrap/3.1.0/j
 		</div>
 
 		<div id="footer">
-<?=$this->partial('partials/footer');?>
+<?
+echo $this->partial('partials/footer');
+if($this->view->getVar('ckeditor')) {
+?>
+<script type="text/javascript">
+CKEDITOR.replace('text',{
+	customConfig: '/js/ckeditorConfig/config.js'
+});
+</script>
+<? } ?>
 		</div>
 	</body>
 </html>
