@@ -5,7 +5,7 @@ class ApiController extends \Framework\AbstractController {
 	const UPLOAD_FILE_TOO_BIG = 'The file is too big. Allowed size limit is 1mb.';
 	const UPLOAD_WRONG_IMAGE_FORMAT = 'The image must be in either JPG or PNG format. Please upload a JPG or PNG instead.';
 	const UPLOAD_NOT_VIA_POST = 'You may be attempting to hack our server. We\'re on to you; expect a knock on the door sometime soon.';
-	const UPLOAD_CHECK_SCRIPT_PERMISSIONS = 'Error moving uploaded file. Check the script is granted Read/Write/Modify permissions.';
+	const UPLOAD_CHECK_SCRIPT_PERMISSIONS = 'Oops something went wrong. But we still love you! Please try one more time.';
 
 	public function beforeExecuteRoute(\Phalcon\Mvc\Dispatcher $dispatcher) {
 		//disable view render
