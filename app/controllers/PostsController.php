@@ -13,6 +13,8 @@ class PostsController extends \Framework\AbstractController {
 	}
 
 	public function addAction() {
+		// enable ckeditor
+		$this->view->setVar('ckeditor', true);
 		if (!$this->view->form) $this->view->setVar('form', new \PostForm\PostAddForm());
 		if ($this->getDI()->getRequest()->isPost()) {
 			$post = new Posts();
@@ -33,6 +35,8 @@ class PostsController extends \Framework\AbstractController {
 	}
 
 	public function editAction() {
+		// enable ckeditor
+		$this->view->setVar('ckeditor', true);
 		if ($postToEdit = $this->_getExistedPostByID()) {
 			// declare and populate form
 			$this->view->setVar('form', new \PostForm\PostEditForm($postToEdit));

@@ -1,0 +1,1 @@
+permissions for this folder should allow storing uploaded data.
