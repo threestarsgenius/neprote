@@ -2,13 +2,22 @@
 
 class Users extends \Framework\AbstractModel {
 
+	const FIELD_ID = 'id';
+	const TABLE_USERS_ROLES = 'UsersRoles';
+	const FIELD_RELATED_ROLE_ID = 'role_id';
+
 	protected $_emails = array();
+
+	public function initialize() {
+		$this->belongsTo(self::FIELD_RELATED_ROLE_ID, self::TABLE_USERS_ROLES, self::FIELD_ID);
+	}
 
 	public function create($data = array(), $whiteList = array()) {
 		if (count($data)) $this->assign($data);
 		$this->id = md5(microtime(true));
 		$this->hashPassword($this->password);
 		$this->created = time();
+		$this->role_id = \UsersRoles::ROLE_GUEST_ID;
 		parent::create($data, $whiteList);
 		// create new user email
 		$newUsersEmails = new UsersEmails();
@@ -91,12 +100,17 @@ class Users extends \Framework\AbstractModel {
 		$this->save();
 	}
 
+	public function setUserDeleted() {
+		$this->active = 0;
+		$this->save();
+	}
+
 	public function getUserByPrimaryEmailAndPass($email, $password) {
 		$emailsTable = new UsersEmails();
 		$emails = $emailsTable->getVerifiedPrimaryEmailsByEmail($email);
 		foreach ($emails as $primaryEmail) {
 			$user = self::findFirst(array('id = :user_id: AND active = 1', 'bind' => array('user_id' => $primaryEmail->user_id)));
-			if ($user->checkPassword($password)) return $user;
+			if ($user && $user->checkPassword($password)) return $user;
 		}
 		return null;
 	}
@@ -128,6 +142,15 @@ class Users extends \Framework\AbstractModel {
 			$this->save();
 			return true;
 		}
+	}
+
+	public function setNewRole($role) {
+		$this->role_id = $role->role_id;
+		$this->update();
+	}
+
+	public function getAllUsers() {
+		return self::find();
 	}
 
 }

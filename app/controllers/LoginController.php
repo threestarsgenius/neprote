@@ -44,7 +44,7 @@ class LoginController extends \Framework\AbstractController {
 					$this->cookies->setCookies($rememberMe->code);
 				}
 				$this->session->set('auth', new \Auth($user));
-				$this->response->redirect("home/index");
+				$this->response->redirect("index/index");
 				return;
 			}
 		}
@@ -53,9 +53,10 @@ class LoginController extends \Framework\AbstractController {
 			$this->session->get('auth')->incrementRetryCount();
 			$this->view->setVars(array('captcha' => $captcha, 'form' => $form, 'error' => true));
 			$this->view->form->get('password')->clear();
+			$this->view->messages->addError('Oops! The credentials you\'ve provided are wrong! Please, try again or contact with administration.');
 		}
 
-		$this->dispatcher->forward(array(
+		return $this->dispatcher->forward(array(
 				"controller" => "login",
 				"action" => "index" ));
 

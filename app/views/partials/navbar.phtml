@@ -10,19 +10,31 @@
 			<a class="navbar-brand" href="/">G44</a>
 		</div>
 		<div class="collapse navbar-collapse">
+<?
+if ($this->session->get('auth')->isAuthenticated() 
+	&& $this->session->get('auth')->getUserRole() != UsersRoles::ROLE_GUEST) {
+?>
 			<ul class="nav navbar-nav">
-				<li class=""><a href="/home">Home</a></li>
 <? if ($this->session->get('auth')->isAuthenticated()) {?>
 				<li class=""><a href="/categories">Categories</a></li>
 				<li class=""><a href="/posts">Posts</a></li>
 				<li class=""><a href="/moderation">Moderation</a></li>
+<?
+if ($this->session->get('auth')->getUserRole() == UsersRoles::ROLE_ADMINISTRATOR) {
+?>
+				<li><a href="/useradmin">Users</a></li>
 <? } ?>
 			</ul>
-
+<? } ?>
 			<ul class="nav navbar-nav navbar-right">
-<? if ($this->session->get('auth')->isAuthenticated()) {?>
+<?
+if ($this->session->get('auth')->isAuthenticated()) {
+if ($this->session->get('auth')->getUserRole() != UsersRoles::ROLE_GUEST) {
+?>
 				<li><a href="/profile">Profile</a></li>
+<? } ?>
 				<li><a href="/signout/index">Sign Out</a></li>
+
 <? } else { ?>
 				<li><a href="/register/index">Sign Up</a></li>
 				<li><a href="/login/index">Sign In</a></li>

@@ -1,6 +1,6 @@
 <?php
 
-class HomeController extends \Framework\AbstractController {
+class UseradminController extends \Framework\AbstractController {
 
 	public function beforeExecuteRoute(\Phalcon\Mvc\Dispatcher $dispatcher) {
 		if (!$this->session->get('auth')->isAuthenticated()) {
@@ -9,5 +9,9 @@ class HomeController extends \Framework\AbstractController {
 		}
 	}
 
-	public function indexAction() {}
+	public function indexAction() {
+		$users = new \Users();
+		$this->view->setVar('users', $users->getAllUsers());
+	}
+
 }

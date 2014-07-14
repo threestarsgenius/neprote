@@ -10,11 +10,10 @@ class UserController extends \Framework\AbstractController {
 	}
 
 	public function indexAction() {}
-	
 
 	public function resetpasswordAction() {
 		if (!$this->session->get('reset-auth')) {
-			$this->dispatcher->forward(array(
+			return $this->dispatcher->forward(array(
 					"controller" => "login",
 					"action" => "index" ));
 		}
@@ -28,7 +27,7 @@ class UserController extends \Framework\AbstractController {
 
 	public function setnewpasswordAction() {
 		if (!$this->session->get('reset-auth')) {
-			$this->dispatcher->forward(array(
+			return $this->dispatcher->forward(array(
 					"controller" => "login",
 					"action" => "index" ));
 		}

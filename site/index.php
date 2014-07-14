@@ -1,9 +1,9 @@
 <?php
 
 DEFINE('APP_PATH', __DIR__.'/..');
+DEFINE('TEMPLATE_DIR', APP_PATH.'/app/views/');
 
 date_default_timezone_set('Europe/Kiev');
-
 try {
 
 	//Read the configuration
@@ -29,14 +29,18 @@ try {
 	$di->set('crypt', call_user_func('InitApp::initCrypt'));
 
 	//Start the session the first time when some component request the session service
-	$di->setShared('session', function() {return \Framework\Session\Init::session(); });
-
-	$di->set('crypt', call_user_func('InitApp::initCookies'));
+	// Differencies between anonymous function and call_user_func:
+	// call_user_func executed immidiately and anonymous function executed when we request the resource
+	$di->setShared('session', call_user_func('\Framework\Session\Init::session'));
 
 	$di->setShared('acl', call_user_func('InitApp::initAcl'));
 
+	$di->set('cookies', call_user_func('InitApp::initCookies'));
+
 	//add dispatcher which handle wrong controllers and actions and other errors
 	$di->set('dispatcher', call_user_func('InitApp::initDispatcher'), true);
+
+	$di->set('breadcrumbs', call_user_func('InitApp::initBreadcrumbs'), true);
 
 	//Handle the request
 	$application = new \Phalcon\Mvc\Application($di);

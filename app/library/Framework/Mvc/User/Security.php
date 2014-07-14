@@ -17,19 +17,18 @@ class Security extends \Phalcon\Mvc\User\Plugin {
 			return false;
 		}
 
+		//Obtain the ACL list
+		$acl = \Phalcon\DI::getDefault()->get('acl');
+
 		//Check whether the "auth" variable exists in session to define the active role
-		$auth = $this->session->get('auth');
-		$role = $auth->isAuthenticated() ? 'Administrator' : 'Guest';
+		$role = array_pop($acl->getRoles());
 
 		//Take the active controller/action from the dispatcher
 		$controller = $dispatcher->getControllerName();
 		$action = $dispatcher->getActionName();
 
-		//Obtain the ACL list
-		$acl = \Phalcon\DI::getDefault()->get('acl');
-
 		//Check if the Role have access to the controller (resource)
-		if ($acl->isAllowed($role, $controller, $action) != \Phalcon\Acl::ALLOW) {
+		if ($acl->isAllowed($role->getName(), $controller, $action) != \Phalcon\Acl::ALLOW) {
 
 			//If he doesn't have access forward him to the index controller
 			$dispatcher->forward(array('controller' => 'index', 'action' => 'index'));
@@ -40,9 +39,11 @@ class Security extends \Phalcon\Mvc\User\Plugin {
 	}
 
 	public function beforeDispatchLoop(\Phalcon\Events\Event $event, \Phalcon\Mvc\Dispatcher $dispatcher) {
+		// I do not think we need this more!!!
+		// This is needed by anonymous functions: leaving this for future use!!!
 		// Initialize session
-		\Phalcon\DI::getDefault()->get('session')->get('auth');
+		//\Phalcon\DI::getDefault()->get('session')->get('auth');
 		// Initialize cookies and renew it on client side
-		\Phalcon\DI::getDefault()->get('cookies')->has('remember-me');
+		//\Phalcon\DI::getDefault()->get('cookies')->has('remember-me');
 	}
 }

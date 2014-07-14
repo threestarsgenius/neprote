@@ -39,7 +39,7 @@ class UsersEmails extends \Framework\AbstractModel {
 		return self::findFirst(array('user_id = :user_id: AND is_primary = 1', 'bind' => array('user_id' => $user_id)));
 	}
 
-	public static function isEmailRegistered($email) {
+	public static function getRegisteredEmail($email) {
 		return self::findFirst(array('email = :email: AND deleted IS NULL', 'bind' => array('email' => $email))) != null;
 	}
 
@@ -52,6 +52,10 @@ class UsersEmails extends \Framework\AbstractModel {
 		if ($this->verificationCode) return $this->verificationCode;
 		$this->verificationCode = $this->verificationObject->findVerificationCode($this, $reason);
 		return $this->verificationCode;
+	}
+
+	public function getDeletedEmailsForUser($user_id) {
+		return self::find(array('user_id = :user_id: AND deleted IS NOT NULL', 'bind' => array('user_id' => $user_id)));
 	}
 
 	public function getEmailsForUser($user_id) {
@@ -67,7 +71,8 @@ class UsersEmails extends \Framework\AbstractModel {
 	}
 
 	public function getVerifiedPrimaryEmailsByEmail($email) {
-		return self::find(array('email = :email: AND verified IS NOT NULL AND is_primary = 1', 'bind' => array('email' => $email)));
+		// get primary email which is verified, primary and not deleted
+		return self::find(array('email = :email: AND verified IS NOT NULL AND is_primary = 1 AND deleted IS NULL', 'bind' => array('email' => $email)));
 	}
 
 	public function setEmailVerified() {
@@ -103,9 +108,18 @@ class UsersEmails extends \Framework\AbstractModel {
 		return $this->save();
 	}
 
+	public function setEmailRestored() {
+		$this->deleted = null;
+		return $this->save();
+	}
+
 	public function setEmailDeleted() {
 		$this->deleted = time();
 		return $this->save();
+	}
+
+	public function isEmailActive() {
+		return is_null($this->deleted);
 	}
 
 }
