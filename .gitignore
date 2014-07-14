@@ -1,2 +1,4 @@
 # files and folders listed here are ignored by git
 # manual https://github.com/github/gitignore
+
+/site/uploads/
