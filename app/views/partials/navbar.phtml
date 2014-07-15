@@ -15,13 +15,12 @@ if ($this->session->get('auth')->isAuthenticated()
 	&& $this->session->get('auth')->getUserRole() != UsersRoles::ROLE_GUEST) {
 ?>
 			<ul class="nav navbar-nav">
-<? if ($this->session->get('auth')->isAuthenticated()) {?>
-				<li class=""><a href="/categories">Categories</a></li>
-				<li class=""><a href="/posts">Posts</a></li>
-				<li class=""><a href="/moderation">Moderation</a></li>
 <?
 if ($this->session->get('auth')->getUserRole() == UsersRoles::ROLE_ADMINISTRATOR) {
 ?>
+				<li class=""><a href="/categories">Categories</a></li>
+				<li class=""><a href="/posts">Posts</a></li>
+				<li class=""><a href="/moderation">Moderation</a></li>
 				<li><a href="/useradmin">Users</a></li>
 <? } ?>
 			</ul>
