@@ -93,6 +93,7 @@ class InitApp {
 			//Private area resources
 			$userResources = array(
 				'profile' => array('index', 'username', 'password', 'email', 'deleteemail', 'setprimaryemail', 'deactivate'),
+				'comments' => array('add', 'remove'),
 				'home' => array('index') );
 
 			//Public area resources
@@ -100,7 +101,7 @@ class InitApp {
 				'confirmemail' => array('index', 'initverify', 'resetpassword', 'resendresetpassword'),
 				'error' => array('notfound', 'serviceunavailable'),
 				'forgotpassword' => array('index', 'sendresetpassword'),
-				'index' => array('index'),
+				'index' => array('index','show'),
 				'login' => array('index', 'checkCredentials'),
 				'user' => array('index', 'setnewpassword', 'resetpassword'),
 				'signout' => array('index'),

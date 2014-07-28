@@ -23,3 +23,41 @@ $this->view->getVar('escaper')->escapeHtml($this->view->getVar('post')->getStatu
 	</p>
 	<p><?=$this->view->getVar('post')->text?></p>
 </div>
+
+<h2 class="page-header">Comments</h2>
+<div id="comments">
+<?if(count($this->view->getVar('comments')) > 0) {?>
+
+
+<?
+$depth = 0;
+foreach ($comments as $comment) {
+	echo $this->partial('partials/comments');
+}
+?>
+
+<? } else { ?>
+<p id="empty_comments_notification">There are no comments yet</p>
+<? } ?>
+</div>
+<hr>
+
+<form>
+	<div class="form-group">
+		<textarea id="text_0" name="text_0" class="form-control" size="30" maxlength="255"></textarea>
+	</div>
+	<div class="form-group">
+<?
+if (($this->session->get('auth')->isAuthenticated()) 
+		&& ($this->session->get('auth')->getUserRole() != UsersRoles::ROLE_GUEST)) {
+?>
+		<input id='comment_submit' data-loading-text="Loading..." type="button" value="Add" class="btn btn-default" onclick="comment_add(<?=$post->id?>)">
+<? } else { ?>
+		<input id='comment_submit' class="btn btn-default deactivated-reply-button" type="button" value="Add" data-toggle="tooltip" data-placement="bottom" title="Please sign in to leave comments">
+<? } ?>
+	</div>
+</form>
+
+<script>
+$('.deactivated-reply-button').tooltip();
+</script>

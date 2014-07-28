@@ -1,0 +1,59 @@
+<?if ($comment->isVisible()) {?>
+<?$depth++;?>
+<div id='comment_<?=$comment->id?>' class="media" data-id=<?=$comment->id?> data-parent=<?=$comment->parent_id?> data-depth="<?=$depth;?>">
+	<a class="pull-left">
+		<img class="media-object" src="http://placekitten.com/50/50" alt="Generic placeholder image">
+	</a>
+	<div class="media-body">
+		<h5 class="media-heading" style="font-weight: bold">
+			<span id='user_from_<?=$comment->id?>'><?=$this->view->getVar('escaper')->escapeHtml($comment->users->name)?></span>
+<?
+if($comment->parent_id) {
+echo ' → '.$this->view->getVar('escaper')->escapeHtml($comment->comments[0]->users->name);
+}
+?>
+			<small><?=PrettyDate::prettify($comment->created);?></small>
+		</h5>
+		<span id='comment_text_<?=$comment->id?>' class="<?=$comment->deleted ? 'comment-deleted' : ''?>">
+<?
+if (is_null($comment->deleted)) {
+	echo $this->view->getVar('escaper')->escapeHtml($comment->text);
+} else {
+	echo 'This comment was removed';
+}
+?>
+		</span>
+		<span id='comment_options_<?=$comment->id?>'>
+			<p>
+<?
+if (($this->session->get('auth')->isAuthenticated()) 
+		&& ($this->session->get('auth')->getUserRole() != UsersRoles::ROLE_GUEST)) {
+?>
+				<a onclick="comment_reply(<?=$post->id?>,<?=$comment->id?>)">Reply</a>
+<? } else { ?>
+				<a class="deactivated-reply-button" data-toggle="tooltip" data-placement="bottom" title="Please sign in to leave comments">Reply</a>
+<? } ?>
+<?
+if (is_null($comment->deleted) 
+	&& (($this->session->get('auth')->getUserId() == $comment->user_id)
+		|| ($this->session->get('auth')->getUserRole() == UsersRoles::ROLE_ADMINISTRATOR)) ) {
+?>
+				<a id="comment_remove_<?=$comment->id?>" onclick="comment_remove(<?=$comment->id?>)">Remove</a>
+<? } ?>
+			</p>
+		</span>
+<?
+if ($depth >= Comments::MAX_COMMENT_DEPTH) {
+	echo '</div></div>';
+}
+if (isset($comment->subcomments)) {
+	foreach ($comment->subcomments as $comment) {
+		echo $this->partial('partials/comments');
+	}
+}
+if ($depth < Comments::MAX_COMMENT_DEPTH) {
+	echo '</div></div>';
+}
+?>
+<?$depth--;?>
+<? } ?>
