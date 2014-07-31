@@ -2,15 +2,18 @@
 
 class CommentsController extends \Framework\AbstractController {
 
+	public function beforeExecuteRoute(\Phalcon\Mvc\Dispatcher $dispatcher) {
+		$this->view->disable();
+	}
+
 	public function indexAction() {}
 
 	public function addAction() {
-		$this->view->disable();
 		if($this->request->isPost() && $this->request->isAjax()) {
 			if (!$this->view->commentForm) $this->view->setVar('commentForm', new \CommentForm\CommentAddForm());
 			$newComment = new \Comments();
 			if ($this->view->commentForm->isValid($this->getDI()->getRequest()->getPost(), $newComment) ) {
-				$newComment->create(array('user_id' => $this->session->get('auth')->getUserId(), 'depth' => 0));
+				$newComment->create(array('user_id' => $this->session->get('auth')->getUserId()));
 				$responce = array(
 					'id' => $newComment->id,
 					'post_id' => $newComment->post_id,
@@ -28,7 +31,6 @@ class CommentsController extends \Framework\AbstractController {
 	}
 
 	public function removeAction() {
-		$this->view->disable();
 		if($this->request->isPost() && $this->request->isAjax()) {
 			$comment_id = $this->request->getPost('comment_id', 'int');
 			$commentsTable = new \Comments();

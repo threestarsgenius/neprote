@@ -3,24 +3,20 @@
 class PrettyDate extends \Phalcon\Mvc\Model {
 
 	const DAY = 86400;
-	const YEAR = 31536000;
 
 	public static function prettify($timestamp) {
-		$now = time();
-		$diff = $now - $timestamp;
-		if ($diff < self::DAY) {
-			$append = '';
-			if (date("d",$now) > date("d",$timestamp)) $append = 'Yesterday ';
-			$pretty_date = $append;
-			$pretty_date .= date("H:i", $timestamp);
-		} elseif(($diff > self::DAY) && ($diff < self::YEAR)) {
-			$pretty_date = date("d M", $timestamp);
-		} elseif($diff > self::YEAR) {
-			$pretty_date = date("d F Y", $timestamp);
-		} else {
-			$pretty_date = 1;
+		$prefix = '';
+		switch (true) {
+			case date('Ymd') == date('Ymd', $timestamp):
+				$dateFormat = 'H:i';break;
+			case date('Ymd', time() - self::DAY) == date('Ymd', $timestamp):
+				$dateFormat = 'H:i';$prefix = 'Yesterday, ';break;
+			case date('Y') == date('Y', $timestamp):
+				$dateFormat = 'd M';break;
+			default:
+				$dateFormat = 'd F Y';
 		}
-		return $pretty_date;
+		return $prefix.date($dateFormat, $timestamp);
 	}
 
 }
