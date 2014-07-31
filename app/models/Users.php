@@ -10,6 +10,7 @@ class Users extends \Framework\AbstractModel {
 
 	public function initialize() {
 		$this->belongsTo(self::FIELD_RELATED_ROLE_ID, self::TABLE_USERS_ROLES, self::FIELD_ID);
+		$this->hasMany('user_id', 'Comments', 'id');
 	}
 
 	public function create($data = array(), $whiteList = array()) {

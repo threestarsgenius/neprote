@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.5.35, for debian-linux-gnu (armv7l)
+-- MySQL dump 10.13  Distrib 5.5.37, for debian-linux-gnu (armv7l)
 --
 -- Host: localhost    Database: neprote
 -- ------------------------------------------------------
--- Server version	5.5.35-0+wheezy1
+-- Server version	5.5.37-0+wheezy1
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -31,7 +31,29 @@ CREATE TABLE `categories` (
   `modified` int(10) unsigned DEFAULT NULL,
   `deleted` int(10) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=106 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=109 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `comments`
+--
+
+DROP TABLE IF EXISTS `comments`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `comments` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` char(32) DEFAULT NULL,
+  `post_id` int(11) NOT NULL,
+  `text` text,
+  `parent_id` int(10) DEFAULT NULL,
+  `created` int(10) NOT NULL,
+  `edited` int(10) DEFAULT NULL,
+  `deleted` int(10) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `post_id` (`post_id`,`user_id`),
+  KEY `id` (`id`,`post_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=523 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -52,7 +74,8 @@ CREATE TABLE `posts` (
   `modified` int(10) unsigned DEFAULT NULL,
   `deleted` int(10) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Table structure for table `user_to_remember_me`
@@ -67,7 +90,7 @@ CREATE TABLE `user_to_remember_me` (
   `code` char(32) NOT NULL,
   `last_updated` int(10) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=59 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -85,7 +108,7 @@ CREATE TABLE `user_verification_codes` (
   `reason` enum('emailVerification','resetPassword') NOT NULL,
   `created` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=158 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=211 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -123,7 +146,7 @@ CREATE TABLE `users_emails` (
   `verified` int(10) DEFAULT NULL,
   `deleted` int(10) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=159 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=163 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -160,4 +183,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-05-13 14:24:36
+-- Dump completed on 2014-07-28  9:11:20
