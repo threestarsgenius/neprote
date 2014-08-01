@@ -33,11 +33,11 @@ if($this->view->getVar('bootstrap_enable')) {
 	</head>
 	<body>
 <?=$this->partial('partials/navbar')?>
-		<div class="container">
+		<div class="container news-line">
 <?=$this->getContent() ?>
 		</div>
 
-		<div id="footer">
+		<div id="footer" class='footer'>
 <?
 echo $this->partial('partials/footer');
 if($this->view->getVar('ckeditor')) {

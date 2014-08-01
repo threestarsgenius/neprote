@@ -1,6 +1,6 @@
 body {
-	padding-top: 70px;
-	padding-bottom: 30px;
+	/*background: #e5e5e5;*/
+	padding-top: 50px;
 }
 
 .theme-dropdown .dropdown-menu {
@@ -15,4 +15,14 @@ body {
 
 .comment-deleted {
 	color: grey;
+}
+
+.news-line {
+	background: #ffffff;
+	padding: 15px;
+}
+
+.footer > .container {
+	/*background: #262626;*/
+	padding: 15px;
 }
