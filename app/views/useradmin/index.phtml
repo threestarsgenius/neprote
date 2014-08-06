@@ -4,10 +4,10 @@
 
 <div class="list-group">
 <? foreach ($this->view->getVar('users') as $user) {?>
-	<a href="/profileadmin/index/<?=$user->id?>" class="list-group-item">
+	<a href="/profileadmin/index/<?=$this->view->getVar('escaper')->escapeHtmlAttr($user->id)?>" class="list-group-item">
 		<img class="pull-left" style="margin-right: 15px;" height="64" src="https://avatars0.githubusercontent.com/u/5111142?s=140" width="64">
 		<p class="list-group-item-heading">
-			<strong><?=$user->name?></strong>
+			<strong><?=$this->view->getVar('escaper')->escapeHtml($user->name)?></strong>
 <?
 if (!$user->active) {
 ?>
@@ -18,7 +18,7 @@ if (!$user->active) {
 <?
 if ($user->getPrimaryEmail()) {
 ?>
-<?=$user->getPrimaryEmail()->email?>
+<?=$this->view->getVar('escaper')->escapeHtml($user->getPrimaryEmail()->email)?>
 <?
 if (!$user->getPrimaryEmail()->verified) {
 ?>
@@ -28,7 +28,7 @@ if (!$user->getPrimaryEmail()->verified) {
 			<span>This account was deleted</span>
 <? } ?>
 		</span>
-		<p class="list-group-item-text"><?=$user->getUsersRoles()->role?></p>
+		<p class="list-group-item-text"><?=$this->view->getVar('escaper')->escapeHtml($user->getUsersRoles()->role)?></p>
 	</a>
 <? } ?>
 </div>
