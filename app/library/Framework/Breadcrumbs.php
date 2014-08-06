@@ -203,7 +203,8 @@ class Breadcrumbs {
 		$usersTable = new \Users();
 		if (count($this->_dispatcher->getParams()) 
 			&& $this->_dispatcher->getParams()) {
-			return $usersTable->getUserByID(array_shift($this->_dispatcher->getParams()))->name;
+			$userName = $usersTable->getUserByID(array_shift($this->_dispatcher->getParams()))->name;
+			return (new \Phalcon\Escaper())->escapeHtml($userName);
 		}
 	}
 
