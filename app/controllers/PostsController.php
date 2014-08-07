@@ -44,6 +44,7 @@ class PostsController extends \Framework\AbstractController {
 				$post = new Posts(array('id' => $postToEdit->id));
 				if ($this->view->form->isValid($this->getDI()->getRequest()->getPost(), $post) ) {
 					$postToEdit->updatePost($post);
+					return $this->response->redirect('index/show/'.$post->id);
 				} else {
 					// output error message
 					$this->view->setVar(
