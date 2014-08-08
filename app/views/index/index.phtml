@@ -1,19 +1,21 @@
-<?foreach ($this->view->getVar('posts') as $post) { ?>
-<div>
-
-<h1 class="page-header">
-	<a href='/index/show/<?=$post->id?>'>
-		<?=$post->title?>
-	</a>
-</h1>
-	<p>
+<div class="container">
+	<h2>News</h2>
+	<div class="row">
 <?
-echo $this->view->getVar('escaper')->escapeHtml($post->getCategoryNameByID()).' '.
-$this->view->getVar('escaper')->escapeHtml($post->getUserNameByID()).' '.
-$this->view->getVar('escaper')->escapeHtml($post->getStatus());
+$i = 0;
+foreach ($this->view->getVar('posts') as $post) { ?>
+<a href='/index/show/<?=$post->id?>'>
+	<div class="col-xs-6 col-sm-3 post-col">
+		<img height="300" width="250" class="img-responsive" src="http://placekitten.com/g/300/250">
+		<span class='post-title'><?=$post->title?></span></br>
+		<span class="glyphicon glyphicon-comment"></span> <span class="comment-count ">20</span>
+	</div>
+</a>
+<?
+	if($i%4 == 3) echo '</div><div class="row">';
+	$i++;
+}
 ?>
-	</p>
-	<p><?=$post->text?></p>
-</div>
-<? } ?>
 
+	</div>
+</div>

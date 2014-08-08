@@ -22,7 +22,15 @@ body {
 	padding: 15px;
 }
 
-.footer > .container {
-	/*background: #262626;*/
+.footer > .container, .post-col {
 	padding: 15px;
+}
+
+.post-title {
+	color: black;
+	font-weight: bold;
+}
+
+.glyphicon, .comment-count {
+	color: #999;
 }
