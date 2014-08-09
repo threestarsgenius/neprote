@@ -3,9 +3,9 @@
 foreach ($breadcrumbs as $crumb) {
 	if (isset($crumb['controller'])) {
 ?>
-<li><a href="/<?=$crumb['controller']?>/<?=isset($crumb['action']) ? $crumb['action'] : ''?>"><?=$crumb['name']?></a></li>
+<li><a href="/<?=$this->view->getVar('escaper')->escapeHtml($crumb['controller'])?>/<?=isset($crumb['action']) ? $this->view->getVar('escaper')->escapeHtml($crumb['action']) : ''?>"><?=$this->view->getVar('escaper')->escapeHtml($crumb['name'])?></a></li>
 <? } else { ?>
-<li class="active"><?=$crumb['name']?></li>
+<li class="active"><?=$this->view->getVar('escaper')->escapeHtml($crumb['name'])?></li>
 <?
 	}
 }
